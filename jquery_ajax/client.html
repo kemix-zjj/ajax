@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery 发送 AJAX 请求</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+</head>
+<body>
+   <div style="width: 200px;height: 100px; margin: 50px auto;">
+    <button>GET</button>
+    <button>POST</button>
+    <button>通用型方法ajax</button>
+   </div> 
+   <script>
+       $('button').eq(0).click(function(){
+        //    发送请求：$.get(给谁发,发送的参数对象,回调函数，响应数据类型)  回调函数中的参数是响应体
+           $.get('http://127.0.0.1:8000/jquery-server',{a:100,b:200},function(data){
+            console.log(data);
+           },'json');   //输出对象
+       })
+
+       $('button').eq(1).click(function(){
+        // 发送请求：$.post(给谁发,发送的参数对象,回调函数，响应数据类型)
+           $.post('http://127.0.0.1:8000/jquery-server',{a:100,b:200},function(data){
+            console.log(data);
+           });     //输出字符串
+       })
+
+       $('button').eq(2).click(function(){
+        //    $.ajax()该方法是接收一个参数对象
+            $.ajax({
+                // url 给谁发
+                url:'http://127.0.0.1:8000/jquery-server',
+                //data:发送参数 也是一个对象
+                data:{a:100,b:200},
+                // type:请求类型 get 或 post
+                type:'GET',
+                // 响应体结果 
+                dataType:'json',  //实现将字符串转化成对象的结果
+                //成功的回调
+                success:function(data){
+                    console.log(data);
+                },
+                //超时时间
+                timeout:2000,
+                // 失败的回调
+                error :function(){
+                   console.log("出错啦！！");
+               },
+               //头信息设置
+               headers :{
+                   c:300,
+                   d:400
+               }
+            });
+       })
+   </script>
+</body>
+</html>
